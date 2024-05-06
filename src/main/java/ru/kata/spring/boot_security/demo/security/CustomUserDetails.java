@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.security;
 
+import org.hibernate.Hibernate;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +21,7 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        Hibernate.initialize(user.getRoles());
         for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }

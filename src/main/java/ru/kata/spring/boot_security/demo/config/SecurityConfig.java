@@ -35,8 +35,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/admin").hasRole("ADMIN")
-                                .requestMatchers("/auth/login", "/auth/register", "/error").permitAll()
-                                .anyRequest().hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/users").hasRole("ADMIN")
+                        .requestMatchers("/auth/login", "/auth/register", "/error").permitAll()
+                        .anyRequest().hasAnyRole("USER", "ADMIN")
                 )
 //                .oauth2Login(oAuthLogin -> oAuthLogin.successHandler(myAuthenticationSuccessHandler()))
                 .formLogin(formLogin ->

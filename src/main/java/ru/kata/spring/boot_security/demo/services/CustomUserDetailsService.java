@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.services;
 
+import org.hibernate.Hibernate;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
@@ -30,6 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found!");
         }
+        Hibernate.initialize(user.get().getRoles());
         return new CustomUserDetails(user.get());
     }
 
