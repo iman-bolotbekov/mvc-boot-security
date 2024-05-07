@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.ModelAndView;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.RegistrationService;
 import ru.kata.spring.boot_security.demo.utils.UserValidator;
@@ -21,21 +22,24 @@ public class AuthController {
         this.registrationService = registrationService;
     }
     @GetMapping("/login")
-    public String loginPage() {
-        return "auth/login";
+    public ModelAndView loginPage() {
+        return new ModelAndView("auth/login");
     }
     @GetMapping("/register")
-    public String registrationPage(@ModelAttribute("user") User user) {
-        return "auth/registration";
+    public ModelAndView registrationPage(@ModelAttribute("user") User user) {
+        return new ModelAndView("auth/registration");
     }
     @PostMapping("/register")
-    public String performRegistration(@ModelAttribute("user") @Valid User user,
+    public ModelAndView performRegistration(@ModelAttribute("user") @Valid User user,
                                       BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("admin");
         this.userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "auth/registration";
+            modelAndView.setViewName("auth/registration");
+            return modelAndView;
         }
         this.registrationService.register(user);
-        return "redirect:/auth/login";
+        modelAndView.setViewName("redirect:/auth/login");
+        return modelAndView;
     }
 }

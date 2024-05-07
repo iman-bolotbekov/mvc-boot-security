@@ -13,7 +13,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.FetchType;
 
 import java.util.HashSet;
 import java.util.Objects;

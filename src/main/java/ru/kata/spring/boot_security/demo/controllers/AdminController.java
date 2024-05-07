@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
+import org.springframework.web.servlet.ModelAndView;
 import ru.kata.spring.boot_security.demo.services.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +14,10 @@ public class AdminController {
         this.adminService = adminService;
     }
     @GetMapping
-    public String adminPage() {
+    public ModelAndView adminPage() {
+        ModelAndView modelAndView = new ModelAndView("admin");
         this.adminService.doAdminStuff();
-        return "admin";
+        modelAndView.setViewName("admin");
+        return modelAndView;
     }
 }

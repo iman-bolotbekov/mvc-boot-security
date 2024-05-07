@@ -1,7 +1,5 @@
 package ru.kata.spring.boot_security.demo.config;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import ru.kata.spring.boot_security.demo.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.Collection;
 
 
 @Configuration
@@ -34,15 +30,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/admin", "/users", "").hasRole("ADMIN")
+                        .requestMatchers("/admin", "/users").hasRole("ADMIN")
                         .requestMatchers("/auth/login", "/auth/register", "/error").permitAll()
                         .anyRequest().hasAnyRole("USER", "ADMIN")
                 )
-//                .oauth2Login(oAuthLogin -> oAuthLogin.successHandler(myAuthenticationSuccessHandler()))
                 .formLogin(formLogin ->
                         formLogin.loginPage("/auth/login")
                                 .loginProcessingUrl("/process_login")
-                                .successHandler(successUserHandler) // Set the custom success handler
+                                .successHandler(successUserHandler)
                                 .failureUrl("/auth/login?error")
                 )
                 .logout((logout) ->
